@@ -39,6 +39,7 @@ public class PropertyTest {
 		
 		assertEquals(ps,props(p1,p2));
 		
+		
 		assertTrue(ps.has(p1,p2));
 		assertTrue(ps.has(p1.name(),p2.name()));
 		assertTrue(ps.has(props(p1,p2)));
@@ -47,13 +48,9 @@ public class PropertyTest {
 
 		assertFalse(ps.has(p3));
 		
-		try {
-			ps.prop("bad");
-			fail();
-		}
-		catch(IllegalStateException matternot) {}
+		assertFalse(ps.get("bad").isPresent());
 		
-		assertEquals(prop("bad","default"),ps.propOr("bad", "default"));
+		assertEquals(prop("bad","default"),ps.getOr("bad", "default"));
 		
 		Property p4 = prop("n4","v4");
 		
