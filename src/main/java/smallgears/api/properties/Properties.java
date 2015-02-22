@@ -26,6 +26,12 @@ import smallgears.api.traits.Streamable;
 @EqualsAndHashCode
 public class Properties implements Streamable<Property> {
 	
+	/**
+	 * @see Property#prop(String, Object)
+	 */
+	public static Property prop(String name, Object value) {
+		return prop(name, value);
+	}
 	
 	private final Map<String, Property> properties = synchronizedMap(new HashMap<String,Property>());
 
