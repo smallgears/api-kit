@@ -1,4 +1,4 @@
-package smallgears.apikit.utils;
+package smallgears.api;
 
 import static java.util.stream.Collectors.*;
 import static java.util.stream.StreamSupport.*;

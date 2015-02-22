@@ -1,6 +1,6 @@
-package smallgears.apikit.traits;
+package smallgears.api.traits;
 
-import static smallgears.apikit.utils.Apikit.*;
+import static smallgears.api.Apikit.*;
 
 import java.util.function.Consumer;
 import java.util.stream.Stream;
