@@ -8,7 +8,7 @@
   </parent>
   
   <artifactId>api-kit</artifactId>
-
+  
 
   <version>1.0.0-SNAPSHOT</version>
   <description>Reusable Elements of API Design.</description>

@@ -1,7 +1,6 @@
 package org.acme;
 
 
-import static org.acme.GroupTest.E.*;
 import static org.junit.Assert.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +11,6 @@ import smallgears.api.group.Group;
 
 public class GroupTest {
 
-	
-	
 	@Test
 	public void cruds() {
 		
@@ -52,34 +49,40 @@ public class GroupTest {
 		assertTrue(g.has("good"));
 
 	}
+
+//	///////////////////////////////////////////////////////////////////////////
 	
-	///////////////////////////////////////////////////////////////////////////
+	//for some funny compiler glitch, cannot star-import factory method below..
+	static El e(String name) {
+		return El.el(name);
+	}
 	
-	@Data
-	@RequiredArgsConstructor(staticName="e") 
-	static class E {
+	@Data 
+	@RequiredArgsConstructor(staticName="el")
+	public static class El {
+		
 		final String name;
 	}
 	
-	static class G extends Group<E,G>{
+	public static class G extends Group<El,G>{
 		
 		G() { 
-			super(E::name);
+			super(El::name);
 		}
 	}
 	
-	static class G2 extends Group<E,G>{
+	public static class G2 extends Group<El,G2>{
 		
-		G2(E ... es) { 
-			super(E::name);
+		G2(El ... es) { 
+			super(El::name);
 			add(es);
 		}
 		
 		@Override
-		protected void add(E e) {
+		protected void add(El el) {
 			
-			if (!e.equals((e("bad"))))
-				super.add(e);
+			if (!el.equals((El.el("bad"))))
+				super.add(el);
 		}
 		
 		@Override
