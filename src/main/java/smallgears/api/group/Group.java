@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -22,7 +23,10 @@ import lombok.RequiredArgsConstructor;
 import smallgears.api.traits.Streamable;
 
 /**
- * A mutable group of uniquely named elements.
+ * A mutable group of uniquely named elements, for extension.
+ * <p>
+ * Subclasses bind <code>SELF</code> and provide a naming function. 
+ * Optionally, they override add/remove hooks.
  * 
  */
 @RequiredArgsConstructor
@@ -42,8 +46,7 @@ public class Group<E,SELF extends Group<E,SELF>> implements Streamable<E> {
 	/**
 	 * Add elements to this group.
 	 */
-	@SafeVarargs
-	public final SELF add(@NonNull E ... elements)  {
+	public SELF add(@SuppressWarnings("unchecked") @NonNull E ... elements)  {
 		
 		return add(asList(elements));
 	}
@@ -61,17 +64,22 @@ public class Group<E,SELF extends Group<E,SELF>> implements Streamable<E> {
 	 */
 	public SELF add(@NonNull Iterable<E> elements)  {
 		
-		for(E e : elements)
-			this.elements.put(name.apply(e),e);
+		elements.forEach(this::add);
 		
 		return self();
+	}
+	
+	
+	protected void add(@NonNull E e)  {
+		
+		this.elements.put(name.apply(e),e);
+		
 	}
 	
 	/**
 	 * Remove elements from this group.
 	 */
-	@SafeVarargs
-	public final SELF remove(@NonNull E ... elements)  {
+	public SELF remove(@SuppressWarnings("unchecked") @NonNull E ... elements)  {
 		
 		return remove(asList(elements));
 	
@@ -90,17 +98,34 @@ public class Group<E,SELF extends Group<E,SELF>> implements Streamable<E> {
 	 */
 	public SELF remove(@NonNull Iterable<E> elements)  {
 		
-		for(E e : elements)
-			this.elements.remove(name.apply(e));
+		elements.forEach(e->remove(name.apply(e)));
 	
 		return self();
 	}
 	
 	/**
+	 * Remove elements from this group.
+	 */
+	public SELF remove(@NonNull String ... names)  {
+		
+		Stream.of(names).forEach(this::remove);
+		
+		return self();
+	}
+	
+	/**
+	 * Remove elements from this group.
+	 */
+	protected void remove(@NonNull String name)  {
+		
+		this.elements.remove(name);
+		
+	}
+
+	/**
 	 * <code>true<code> if this has group has given elements.
 	 */
-	@SafeVarargs
-	public final boolean has(@NonNull String ... names)  {
+	public boolean has(@NonNull String ... names)  {
 		
 		return has(asList(names));
 	
@@ -109,8 +134,7 @@ public class Group<E,SELF extends Group<E,SELF>> implements Streamable<E> {
 	/**
 	 * <code>true<code> if this has group has given elements.
 	 */
-	@SafeVarargs
-	public final boolean has(@NonNull E ... elements)  {
+	public boolean has(@SuppressWarnings("unchecked") @NonNull E ... elements)  {
 		
 		return has(asList(elements));
 	

@@ -59,14 +59,6 @@ public class Properties extends Group<Property,Properties> {
 	/**
 	 * Removes given elements from this group, if they exist.
 	 */
-	public Properties remove(@NonNull String ... names) {
-
-		return remove(asList(names));
-	}
-	
-	/**
-	 * Removes given elements from this group, if they exist.
-	 */
 	public Properties remove(@NonNull Collection<String> names) {
 
 		return remove(coll(names));
