@@ -86,10 +86,9 @@ public class GroupTest {
 		}
 		
 		@Override
-		protected void remove(String s) {
+		protected El remove(String s) {
 			
-			if (!s.equals("good"))
-				super.remove(s);
+			return s.equals("good")? null : super.remove(s);
 		}
 	}
 }

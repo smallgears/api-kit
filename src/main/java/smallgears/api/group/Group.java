@@ -116,9 +116,9 @@ public class Group<E,SELF extends Group<E,SELF>> implements Streamable<E> {
 	/**
 	 * Remove elements from this group.
 	 */
-	protected void remove(@NonNull String name)  {
+	protected E remove(@NonNull String name)  {
 		
-		this.elements.remove(name);
+		return this.elements.remove(name);
 		
 	}
 
