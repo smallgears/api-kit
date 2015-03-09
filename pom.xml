@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.github.smallgears</groupId>
+    <groupId>net.smallgears</groupId>
     <artifactId>api-parens</artifactId>
     <version>1</version>
   </parent>
