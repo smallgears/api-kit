@@ -11,10 +11,14 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class Apikit {
 
+	
+	
+	//////////////////////////////////////////////////////////////////////////////// streams
+	
 	/**
 	 * Turns an {@link Iterable} into a sequential {@link Stream}.
 	 */
-	public static <T> Stream<T> streamof(Iterable<T> vals) {
+	public <T> Stream<T> streamof(Iterable<T> vals) {
 		
 		return streamof(vals,false);
 	}
@@ -22,17 +26,64 @@ public class Apikit {
 	/**
 	 * Turns an {@link Iterable} into a {@link Stream}.
 	 */
-	public static <T> Stream<T> streamof(Iterable<T> vals, boolean parallel) {
+	public <T> Stream<T> streamof(Iterable<T> vals, boolean parallel) {
 		
 		return stream(vals.spliterator(),parallel);
 	}
 	
 	/**
-	 * <code>null</code>-free string joins.
+	 * A <code>null</code>-free string join.
 	 */
-	public static String join(Stream<String> vals) {
+	public String join(Stream<String> vals) {
 		
 		return vals.filter(s->s!=null).collect(joining());
+	}
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////////////// faults
+
+	/**
+	 * An unchecked wrapper for an exception.
+	 * @return the wrapper, or the original exception if already unchcked.
+	 */
+	public RuntimeException unchecked(Throwable t) {
+	
+		return 
+				t instanceof RuntimeException? 
+						RuntimeException.class.cast(t) :
+						new RuntimeException(t);
+	}
+
+
+	/**
+	 * An unchecked wrapper for an exception, even those that are already unchecked.
+	 */
+	public RuntimeException unchecked(String msg, Throwable t) {
+		
+		msg = msg + " (see cause) ";
+		return 
+				t instanceof IllegalArgumentException? new IllegalArgumentException(msg,t) :
+				t instanceof IllegalStateException ? new IllegalStateException(msg,t) :
+				new RuntimeException(msg,t);
+	}
+	
+	/**
+	 * Throws the exception returned by {@link #unchecked(String, Throwable)}. 
+	 */
+	public void rethrow(String msg,Throwable t) throws RuntimeException {
+		
+		throw unchecked(msg,t);
+
+	}
+	
+	/**
+	 * Throws the exception returned by {@link #unchecked(Throwable)}. 
+	 */
+	public void rethrow(Throwable t) throws RuntimeException {
+		
+		throw unchecked(t);
+
 	}
 	
 }
