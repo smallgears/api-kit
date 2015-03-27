@@ -35,6 +35,17 @@ public class Property {
 	}
 	
 	/**
+	 * Returns the value of this property if it has a given type, otherwise a fallback value of that type.
+	 * 
+	 */
+	@SuppressWarnings("all")
+	public <S> S asOr(S fallback) {
+		
+		return is(fallback.getClass()) ? (S) value() : fallback;
+				
+	}
+	
+	/**
 	 * Returns <code>true</code> if the value of this property has a given type.
 	 */
 	public boolean is(Class<?> type) {
